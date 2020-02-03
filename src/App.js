@@ -1,26 +1,38 @@
-import React from 'react';
-import logo from './logo.svg';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import Carousel from './carousel'
+import Dots from './indicator-dots'
+import Buttons from './buttons'
+import ReactPlayer from 'react-player'
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class App extends React.Component {
+  constructor () {
+    super()
+    this.state = {
+      axis: 'x'
+    }
+    this.setAxis = axis => {
+      return () => this.setState({'axis': axis})
+    }
+  }
+  render () {
+    return (
+      <div style={{height: '100%'}}>
+        <header>
+          <span className={this.state.axis === 'x' ? 'axis current' : 'axis'}
+            onClick={this.setAxis('x')}>horizontal</span>
+          <span className={this.state.axis === 'y' ? 'axis current' : 'axis'}
+            onClick={this.setAxis('y')}>vertical</span>
+        </header>
+        <Carousel loop axis={this.state.axis} widgets={[Dots, Buttons]} className="custom-class">
+          <p style={{backgroundColor: 'royalblue', height: '100%'}}><ReactPlayer url='https://youtu.be/krAWgVJBsgA' controls/></p>
+          <p style={{backgroundColor: 'orange', height: '100%'}}>FRAME 2</p>
+          <p style={{backgroundColor: 'orchid', height: '100%'}}>FRAME 3</p>
+        </Carousel>
+      </div>
+    )
+  }
 }
 
 export default App;
